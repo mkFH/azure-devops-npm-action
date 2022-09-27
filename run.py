@@ -4,12 +4,13 @@ import os
 def parse_args():
 	parser = argparse.ArgumentParser(description="Generate .npmrc file for Azure DevOps")
 	parser.add_argument("--organisation", dest="organisation", required=True, help="Your Azure organisation")
-	parser.add_argument("--project", dest="project", required=True, help="Your Azure project")
+	parser.add_argument("--project", dest="project", required=False, help="Your Azure project")
 	parser.add_argument("--registry", dest="registry", required=True, help="Your Azure registry")
 	parser.add_argument("--user", dest="user", required=True, help="Your Azure user")
 	parser.add_argument("--password", dest="password", required=True, help="Your Azure password")
 	parser.add_argument("--email", dest="email", required=True, help="Your Azure email")
 	parser.add_argument("--scope", dest="scope", required=False, help="Your package scope")
+	parser.add_argument("--dir", dest="dir", required=False, help=".npmrc file destination dir")
 	return parser.parse_args()
 
 def generate_url(args):
@@ -34,8 +35,11 @@ def generate_credentials(args):
 //{url}/:email={args.email}
 ; end auth token"""
 
-def write_file(content):
-	path = os.path.join(os.getenv("GITHUB_WORKSPACE"), ".npmrc")
+def write_file(content, args):
+	if args.dir:
+		path = os.path.join(args.dir, ".npmrc")
+	else:
+		path = os.path.join(os.getenv("GITHUB_WORKSPACE"), ".npmrc")
 	with open(path, 'w') as f:
 		f.write(content)
 

@@ -9,7 +9,7 @@ inputs:
         required: true
     project:
         description: "Your Azure project"
-        required: true
+        required: false
     registry:
         description: "Your Azure registry"
         required: true
@@ -24,6 +24,9 @@ inputs:
         required: true
     scope:
         description: "Your package scope"
+        required: false
+    dir:
+        description: ".npmrc file destination dir"
         required: false
 runs:
     using: "docker"
@@ -43,3 +46,5 @@ runs:
         - ${{ inputs.email }}
         - "--scope"
         - ${{ inputs.scope }}
+        - "--dir"
+        - ${{ inputs.dir }}
