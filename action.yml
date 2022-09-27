@@ -25,9 +25,6 @@ inputs:
     scope:
         description: "Your package scope"
         required: false
-    path:
-        description: ".npmrc file destination dir"
-        required: false
 runs:
     using: "docker"
     image: "Dockerfile"
@@ -46,5 +43,3 @@ runs:
         - ${{ inputs.email }}
         - "--scope"
         - ${{ inputs.scope }}
-        - "--path"
-        - ${{ inputs.path }}

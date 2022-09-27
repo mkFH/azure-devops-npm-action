@@ -10,7 +10,6 @@ def parse_args():
 	parser.add_argument("--password", dest="password", required=True, help="Your Azure password")
 	parser.add_argument("--email", dest="email", required=True, help="Your Azure email")
 	parser.add_argument("--scope", dest="scope", required=False, help="Your package scope")
-	parser.add_argument("--path", dest="path", required=False, help=".npmrc file destination path")
 	return parser.parse_args()
 
 def generate_url(args):
@@ -35,9 +34,10 @@ def generate_credentials(args):
 //{url}/:email={args.email}
 ; end auth token"""
 
-def write_file(content, args):
-	if args.path:
-		path = os.path.join(args.path, ".npmrc")
+def write_file(content):
+	custom_path = os.getenv("NPMRC_FILE")
+	if custom_path:
+		path = custom_path
 	else:
 		path = os.path.join(os.getenv("GITHUB_WORKSPACE"), ".npmrc")
 	with open(path, 'w') as f:
@@ -47,7 +47,7 @@ def main():
 	args = parse_args()
 	content = generate_registry(args)
 	content += generate_credentials(args)
-	write_file(content, args)
+	write_file(content)
 
 if __name__ == "__main__":
     main()
