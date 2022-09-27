@@ -47,7 +47,7 @@ def main():
 	args = parse_args()
 	content = generate_registry(args)
 	content += generate_credentials(args)
-	write_file(content)
+	write_file(content, args)
 
 if __name__ == "__main__":
     main()
